@@ -1,0 +1,176 @@
+Alright, let's build a standalone component setup with nested `router-outlet` directives to demonstrate how to handle deeper levels of routing.
+
+**1. Generate Standalone Components:**
+
+```bash
+ng generate component parent --standalone
+ng generate component parent/child-a --standalone
+ng generate component parent/child-b --standalone
+ng generate component parent/child-a/grandchild-x --standalone
+ng generate component parent/child-a/grandchild-y --standalone
+```
+
+**2. Parent Component (`parent.component.ts`):**
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+
+@Component({
+  selector: 'app-parent',
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  template: `
+    <h2>Parent Component</h2>
+    <nav>
+      <a routerLink="child-a" routerLinkActive="active">Child A</a>
+      <a routerLink="child-b" routerLinkActive="active">Child B</a>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
+})
+export class ParentComponent {}
+```
+
+**3. Child A Component (`child-a.component.ts`):**
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+
+@Component({
+  selector: 'app-child-a',
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  template: `
+    <h3>Child A Component</h3>
+    <nav>
+      <a routerLink="grandchild-x" routerLinkActive="active">Grandchild X</a>
+      <a routerLink="grandchild-y" routerLinkActive="active">Grandchild Y</a>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
+})
+export class ChildAComponent {}
+```
+
+**4. Child B Component (`child-b.component.ts`):**
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-child-b',
+  standalone: true,
+  template: `
+    <h3>Child B Component</h3>
+    <p>This is the content of Child B.</p>
+  `,
+})
+export class ChildBComponent {}
+```
+
+**5. Grandchild X Component (`grandchild-x.component.ts`):**
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-grandchild-x',
+  standalone: true,
+  template: `
+    <h4>Grandchild X Component</h4>
+    <p>This is the content of Grandchild X.</p>
+  `,
+})
+export class GrandchildXComponent {}
+```
+
+**6. Grandchild Y Component (`grandchild-y.component.ts`):**
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-grandchild-y',
+  standalone: true,
+  template: `
+    <h4>Grandchild Y Component</h4>
+    <p>This is the content of Grandchild Y.</p>
+  `,
+})
+export class GrandchildYComponent {}
+```
+
+**7. Routing Configuration (`app.routes.ts`):**
+
+```typescript
+import { Routes } from '@angular/router';
+import { ParentComponent } from './parent/parent.component';
+import { ChildAComponent } from './parent/child-a/child-a.component';
+import { ChildBComponent } from './parent/child-b/child-b.component';
+import { GrandchildXComponent } from './parent/child-a/grandchild-x/grandchild-x.component';
+import { GrandchildYComponent } from './parent/child-a/grandchild-y/grandchild-y.component';
+
+export const routes: Routes = [
+  {
+    path: 'parent',
+    component: ParentComponent,
+    children: [
+      {
+        path: 'child-a',
+        component: ChildAComponent,
+        children: [
+          { path: 'grandchild-x', component: GrandchildXComponent },
+          { path: 'grandchild-y', component: GrandchildYComponent },
+          { path: '', redirectTo: 'grandchild-x', pathMatch: 'full' },
+        ],
+      },
+      { path: 'child-b', component: ChildBComponent },
+      { path: '', redirectTo: 'child-a', pathMatch: 'full' },
+    ],
+  },
+  // ... other routes
+];
+```
+
+**8. Application Configuration (`app.config.ts`):**
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};
+```
+
+**9. App Component Template (`app.component.html`):**
+
+```html
+<nav>
+  <a routerLink="/parent">Parent</a>
+</nav>
+<router-outlet></router-outlet>
+```
+
+**Explanation:**
+
+* **Nested `router-outlet`:**
+    * The `ParentComponent` has one `router-outlet` for its direct children.
+    * The `ChildAComponent` has another `router-outlet` for its grandchildren.
+* **Nested Routing:**
+    * The `app.routes.ts` file defines the nested routing structure.
+    * The `children` array within `ChildAComponent`'s route defines the `GrandchildXComponent` and `GrandchildYComponent` routes.
+* **Relative Navigation:**
+    * Within `ChildAComponent`, the `routerLink` directives for the grandchildren are relative to the `ChildAComponent`'s path.
+
+**How it Works:**
+
+1.  When you navigate to `/parent`, the `ParentComponent` is displayed.
+2.  Navigating to `/parent/child-a` loads the `ChildAComponent` inside the parent's `router-outlet`.
+3.  Then, navigating to `/parent/child-a/grandchild-x` loads the `GrandchildXComponent` inside the ChildA component's `router-outlet`.
+
+This setup demonstrates how to create deeply nested routing with standalone components and multiple `router-outlet` directives, allowing for complex layouts and navigation structures.
