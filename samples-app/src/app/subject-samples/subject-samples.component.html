@@ -1,0 +1,18 @@
+<button (click)="emitEvent()">Emit Event</button>
+<button (click)="emitData()">Emit Data</button>
+<button (click)="emitUser()">Emit User</button>
+<p>Result:{{result}}</p>
+
+<div>
+
+Choosing Between Observable and Subject in RxJS
+The choice between Observable and Subject depends on the requirements of your application:
+
+Use Observables when you need a new and independent execution of the stream for each subscriber. 
+This is suitable for scenarios where you want subscribers to receive the entire sequence of events from the beginning.
+
+Use Subjects when you need to share the same execution of the stream among multiple subscribers, and when you want more control over pushing new values into the stream. 
+Subjects are ideal for scenarios where you need to maintain state or broadcast events to multiple observers.
+
+
+</div>
