@@ -1,0 +1,191 @@
+Let's explore a variety of RxJS examples to give you a solid understanding of its capabilities.
+
+**1. Basic Observable Creation and Subscription:**
+
+```typescript
+import { Observable, of } from 'rxjs';
+
+// Create an Observable using 'of'
+const myObservable = of(1, 2, 3);
+
+// Subscribe to the Observable
+myObservable.subscribe({
+  next: (value) => console.log('Received:', value),
+  error: (err) => console.error('Error:', err),
+  complete: () => console.log('Completed!'),
+});
+
+// Output:
+// Received: 1
+// Received: 2
+// Received: 3
+// Completed!
+```
+
+**2. Interval and Timer:**
+
+```typescript
+import { interval, timer } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+// Interval: Emit values every 1 second, take 5
+const intervalObservable = interval(1000).pipe(take(5));
+intervalObservable.subscribe(val => console.log('Interval:', val));
+
+// Timer: Emit a value after 2 seconds
+const timerObservable = timer(2000);
+timerObservable.subscribe(() => console.log('Timer done!'));
+
+// Output (after 2 seconds):
+// Interval: 0
+// Interval: 1
+// Interval: 2
+// Interval: 3
+// Interval: 4
+// Timer done!
+```
+
+**3. FromEvent (DOM Events):**
+
+```typescript
+import { fromEvent } from 'rxjs';
+
+const button = document.getElementById('myButton');
+if(button){
+    const clickObservable = fromEvent(button, 'click');
+
+    clickObservable.subscribe(event => console.log('Button clicked!', event));
+}
+
+// (Clicking the button will log the event object)
+```
+
+**4. Map and Filter Operators:**
+
+```typescript
+import { of } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
+
+const numbers = of(1, 2, 3, 4, 5, 6);
+
+numbers
+  .pipe(
+    filter(num => num % 2 === 0), // Filter even numbers
+    map(num => num * 10) // Multiply by 10
+  )
+  .subscribe(result => console.log('Processed:', result));
+
+// Output:
+// Processed: 20
+// Processed: 40
+// Processed: 60
+```
+
+**5. Merge and Concat:**
+
+```typescript
+import { interval, take, merge, concat, of } from 'rxjs';
+
+const interval1 = interval(1000).pipe(take(3));
+const interval2 = interval(500).pipe(take(4));
+const ofExample = of(10, 11, 12);
+
+// Merge: Interleave emissions
+merge(interval1, interval2, ofExample).subscribe(val => console.log('Merge:', val));
+
+// Concat: Complete the first, then the second
+concat(interval1, interval2, ofExample).subscribe(val => console.log('Concat:', val));
+```
+
+**6. DebounceTime and DistinctUntilChanged:**
+
+```typescript
+import { fromEvent } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+
+const input = document.getElementById('myInput');
+
+if(input){
+    const inputObservable = fromEvent(input, 'input').pipe(
+        map((event: any) => event.target.value),
+        debounceTime(500), // Wait 500ms after last input
+        distinctUntilChanged() // Only emit if the value changed
+    );
+
+    inputObservable.subscribe(val => console.log('Debounced:', val));
+}
+```
+
+**7. CatchError and Retry:**
+
+```typescript
+import { of, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
+const errorObservable = throwError('An error occurred!');
+
+errorObservable
+  .pipe(
+    retry(2), // Retry twice
+    catchError(err => of('Fallback value')) // Handle errors
+  )
+  .subscribe({
+    next: val => console.log('Result:', val),
+    error: err => console.error('Final Error:', err),
+  });
+```
+
+**8. SwitchMap (Canceling Previous Requests):**
+
+```typescript
+import { fromEvent, interval } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+
+const button2 = document.getElementById('myButton2');
+if(button2){
+    const clickObservable2 = fromEvent(button2, 'click').pipe(
+        switchMap(() => interval(1000).pipe(take(3))) // Cancel previous interval on new click
+    );
+
+    clickObservable2.subscribe(val => console.log('SwitchMap:', val));
+}
+```
+
+**9. Subject (Multicasting):**
+
+```typescript
+import { Subject } from 'rxjs';
+
+const mySubject = new Subject();
+
+mySubject.subscribe(val => console.log('Observer 1:', val));
+mySubject.subscribe(val => console.log('Observer 2:', val));
+
+mySubject.next('Hello!');
+
+// Output:
+// Observer 1: Hello!
+// Observer 2: Hello!
+```
+
+**10. BehaviorSubject (Initial Value):**
+
+```typescript
+import { BehaviorSubject } from 'rxjs';
+
+const myBehaviorSubject = new BehaviorSubject(0);
+
+myBehaviorSubject.subscribe(val => console.log('Behavior 1:', val));
+myBehaviorSubject.next(1);
+myBehaviorSubject.subscribe(val => console.log('Behavior 2:', val));
+myBehaviorSubject.next(2);
+
+// Output:
+// Behavior 1: 0
+// Behavior 1: 1
+// Behavior 2: 1
+// Behavior 1: 2
+// Behavior 2: 2
+```
+
+These examples cover a wide range of RxJS concepts. Experiment with them, modify them, and use them as a starting point for your own RxJS explorations. Remember to import the necessary operators from `rxjs/operators`.
