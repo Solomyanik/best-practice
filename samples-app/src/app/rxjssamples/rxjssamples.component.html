@@ -1,0 +1,65 @@
+<h2>RxJS Examples</h2>
+
+<div class="example">
+  <h3>fromPromise: Fetch User Data</h3>
+  <button (click)="fetchUserData()">Fetch User 1</button>
+  <div class="result">{{ userDataResult | json }}</div>
+</div>
+
+<div class="example">
+  <h3>interval: Server Status Polling</h3>
+  <div class="result">{{ serverStatusResult }}</div>
+</div>
+
+<div class="example">
+  <h3>timer: Welcome Message</h3>
+  <div class="result">{{ welcomeMessageResult }}</div>
+</div>
+
+<div class="example">
+  <h3>ajax: Fetch Posts</h3>
+  <button (click)="fetchPosts()">Fetch Posts</button>
+  <div class="result">{{ postsResult | json }}</div>
+</div>
+
+<div class="example">
+  <h3>fromEvent: Mouse Coordinates</h3>
+  <div class="result">{{ mouseCoordsResult }}</div>
+</div>
+
+<div class="example">
+  <h3>fromEvent + debounceTime: Search</h3>
+  <input type="text" #searchInput (input)="search(searchInput.value)" placeholder="Search...">
+  <div class="result">{{ searchResult | json }}</div>
+</div>
+
+<div class="example">
+  <h3>map + filter: Squared Even Numbers</h3>
+  <div class="result">{{ squaredEvenResult }}</div>
+</div>
+
+<div class="example">
+  <h3>combineLatest: Full Name</h3>
+  <input type="text" #firstName placeholder="First Name">
+  <input type="text" #lastName placeholder="Last Name">
+  <div class="result">{{ fullNameResult }}</div>
+</div>
+
+<div class="example">
+  <h3>switchMap: Cancelable Search</h3>
+  <input type="text" #cancelSearchInput (input)="cancelSearch(cancelSearchInput.value)" placeholder="Cancelable Search...">
+  <div class="result">{{ cancelSearchResult | json }}</div>
+</div>
+
+<div class="example">
+  <h3>catchError: API Error Handling</h3>
+  <button (click)="fetchError()">Fetch Error</button>
+  <div class="result">{{ errorResult | json }}</div>
+</div>
+
+<div class="example">
+    <h3>retry: Retrying API call</h3>
+    <button (click)="retryCall()">Retry API</button>
+    <div class="result">{{ retryResult | json }}</div>
+</div>
+  

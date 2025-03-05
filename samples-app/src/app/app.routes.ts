@@ -3,13 +3,15 @@ import { AppComponent } from './app.component';
 import {PromiseSignalRxjsComponent} from './promise-signal-rxjs/promise-signal-rxjs.component';
 import {AboutComponent} from './about/about.component';
 import { SubjectSamplesComponent } from './subject-samples/subject-samples.component';
+import {RxjssamplesComponent} from './rxjssamples/rxjssamples.component'
 
 export const routes: Routes = [
     //{ path: '', redirectTo: '/home', pathMatch: 'full',component: AppComponent  }, // Default route
     { path: 'angular', component: AppComponent, 
         children:[
             {path: 'promise', component: PromiseSignalRxjsComponent},
-            {path: 'subject', component:SubjectSamplesComponent}
+            {path: 'subject', component:SubjectSamplesComponent},
+            {path:'rxjs',component:RxjssamplesComponent}
         ]
     },
     { path: '', redirectTo: 'about', pathMatch: 'full' },
