@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "zjehEYWRkBw=",
+  "success": true,
+  "projectFilePath": "/Users/michaelsolomyanik/git/best-practice/sample-webapi/sample-webapi.csproj",
+  "expectedPackageFiles": [
+    "/Users/michaelsolomyanik/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
+    "/Users/michaelsolomyanik/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
