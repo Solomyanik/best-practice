@@ -4,6 +4,9 @@ import {PromiseSignalRxjsComponent} from './promise-signal-rxjs/promise-signal-r
 import {AboutComponent} from './about/about.component';
 import { SubjectSamplesComponent } from './subject-samples/subject-samples.component';
 import {RxjssamplesComponent} from './rxjssamples/rxjssamples.component'
+import {GeminiComponent} from './gem-app/src/app/gemini/gemini.component'
+import { provideHttpClient } from '@angular/common/http';
+
 
 export const routes: Routes = [
     //{ path: '', redirectTo: '/home', pathMatch: 'full',component: AppComponent  }, // Default route
@@ -11,7 +14,8 @@ export const routes: Routes = [
         children:[
             {path: 'promise', component: PromiseSignalRxjsComponent},
             {path: 'subject', component:SubjectSamplesComponent},
-            {path:'rxjs',component:RxjssamplesComponent}
+            {path:'rxjs',component:RxjssamplesComponent},
+            {path:'gemini',component:GeminiComponent,providers:[provideHttpClient()]}
         ]
     },
     { path: '', redirectTo: 'about', pathMatch: 'full' },
